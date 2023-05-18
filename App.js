@@ -1,9 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import { Pressable, StyleSheet, Text, View, Button, Image } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import * as Linking from 'expo-linking';
-
+// import * as Linking from 'expo-linking';
+import { jokeApp } from './Jokeapp'
+import { wikImage } from './Wikimage'
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { A } from '@expo/html-elements';
 
 const styles = StyleSheet.create({
   container: {
@@ -25,8 +29,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   wrapperCustom: {
-    borderRadius: 8,
-    padding: 6,
+    borderRadius: 5,
+    padding: 12,
+    alignItems: 'center',
   }
   // box: {
   //   flex: 1,
@@ -35,47 +40,19 @@ const styles = StyleSheet.create({
   //   justifyContent: 'center',
   // }
 });
+// export defaul
 
-export default function App() {
-  // const [isLoading, setLoading] = useState(true);
-  // const [imgUri, setimgUri] = useState([]);
-  const [joketext, setjoketext] = useState("");
-
-  const joketxt = async () => {
-    try {
-      const res = await fetch("https://icanhazdadjoke.com/", { headers: { "Accept": "application/json" } });
-      const json = await res.json();
-      // setimgUri("https://icanhazdadjoke.com/j/" + json.id + ".png");
-      setjoketext(json.joke);
-      console.log(json);
-    }
-    catch (error) {
-      console.error(error);
-    }
-    // finally {
-    //   setLoading(false);
-  }
-
-  // };
-
+function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <LinearGradient
         // Background Linear Gradient
         colors={['rgba(250,100,150,0.7)', '#2d8794']}
         style={styles.background}>
-        <Text>
-          <Text style={{ fontSize: 25, fontWeight: 'bold' }}>Manua's joke fetcher {'\n'}</Text>
-          {/* <View style={styles.box}> */}
-          {/* <Button
-            onPress={() => joketxt()
-            }
-            title="Fetch Joke"
-            color="#038cfc"
-            accessibilityLabel="Fetch a dad joke on the internet!"
-          /> */}
+          <Text style={{ fontSize: 30, fontWeight: 'bold' }}> (There's no place like) Home {'\n'}</Text>
+        <Text>{'\n'}</Text>
           <Pressable
-            onPress={() => joketxt()}
+            onPress={() => navigation.push('Jokes')}
             style={({ pressed }) => [
               {
                 backgroundColor: pressed ? 'rgb(237, 92, 167)' : 'rgb(222, 67, 145)',
@@ -83,30 +60,46 @@ export default function App() {
               styles.wrapperCustom,
             ]}>
             <Text style={styles.text}>
-              Fetch a dad joke
+              Go to Jokes
             </Text>
-
           </Pressable>
-          <Text> {'\n'}{joketext}</Text>
-          {/* </View> */}
-          {/* <Image source={{ uri: imgUri }}
-        style={{ width: '100%', height: '100%', resizeMode: 'contain', }} /> */}
-          <StatusBar style="auto" />
-
-          <Text>{'\n\n'}This is a universal app (Android + iOS + web) created by{' '}
-            <Text onPress={() => Linking.openURL('http://manuavoltaire.com')}>
-              Manua Voltaire
-            </Text>
-            {'\n\n'}
-            Check the project's{' '}
-            <Text onPress={() => Linking.openURL('https://github.com/manuavoltaire')}>
-              GitHub
-            </Text>
+        <Text>{'\n'}</Text>
+          <Pressable
+            onPress={() => navigation.push('Wikimages')}
+            style={({ pressed }) => [
+              {
+                backgroundColor: pressed ? 'rgb(237, 92, 167)' : 'rgb(222, 67, 145)',
+              },
+              styles.wrapperCustom,
+            ]}>
+            <Text style={styles.text}>
+              Wikimages
           </Text>
-        </Text>
-      </LinearGradient>
+          </Pressable>
+          <Text>{'\n\n'}This is a universal app (Android + iOS + web) created by{' '}
+            <A href="http://manuavoltaire.com">Manua Voltaire</A>
+          {'\n'}
+          </Text>
+          <Text>
+            Check the project's{' '}
+            <A href="https://github.com/manuavoltaire">GitHub</A>
+          </Text>
+        </LinearGradient>
     </View>
-
   );
 }
 
+const Stack = createNativeStackNavigator();
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <StatusBar style="auto" />
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Jokes" component={jokeApp} />
+        <Stack.Screen name="Wikimages" component={wikImage} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
