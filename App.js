@@ -3,8 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 // import * as Linking from 'expo-linking';
-import { jokeApp } from './Jokeapp'
-import { wikImage } from './Wikimage'
+import { JokeApp } from './Jokeapp'
+import { WikImage } from './Wikimage'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { A } from '@expo/html-elements';
@@ -97,8 +97,8 @@ export default function App() {
       <StatusBar style="auto" />
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="Jokes" component={jokeApp} />
-        <Stack.Screen name="Wikimages" component={wikImage} />
+        <Stack.Screen name="Jokes" component={JokeApp} />
+        <Stack.Screen name="Wikimages" component={WikImage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

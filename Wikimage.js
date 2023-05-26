@@ -34,18 +34,17 @@ const styles = StyleSheet.create({
 	},
 });
 
-
-export function wikImage({ navigation }) {
+export function WikImage({ navigation }) {
 	
-	const [searchkey, setsearchkey] = useState("");
+	// const [searchkey, setsearchkey] = useState("");
 
 	const wkibrows = async () => {
+		const api = `https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&origin=*&srsearch=${text}`;
 		try {
-			const res = await fetch("https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch=france", {
+			const res = await fetch(api, {
 				method: 'GET', headers: {
-					"Accept": "application/json",
-				"Access-Control-Allow-Origin": "true"
-}
+					"Accept": "application/json"
+				}
 			});
 			const json = await res.json();
 			// setsearchkey(json.title);
@@ -59,18 +58,6 @@ export function wikImage({ navigation }) {
 	}
 	
 	const [text, onChangeText] = React.useState('');
-	// const Testtext = () => {
-	// 	return (
-	// 	<View style={styles.container}>
-	// 		< TextInput
-	// 		style = { styles.input }
-	// 	onChangeText = { onChangeText }
-	// 	placeholder = "useless placeholder"
-	// 				value={text}
-	// 		/>
-	// 	</View>
-	// 	);
-	// }
 
 	return (
 		<View style={styles.container}>
@@ -83,7 +70,7 @@ export function wikImage({ navigation }) {
 					{/* </View> */}
 					{/* <Image source={{ uri: imgUri }}
         style={{ width: '100%', height: '100%', resizeMode: 'contain', }} /> */}
-					<Text>{'\n\n'}This section is under construction{'\n\n'}
+					<Text>{'\n\n'}Displays images from wikipedia articles.{'\n\n'}
 					</Text>
 					<Pressable
 						onPress={() => navigation.popToTop()}
@@ -103,7 +90,7 @@ export function wikImage({ navigation }) {
 					< TextInput
 						style={styles.input}
 						onChangeText={onChangeText}
-						placeholder="useless placeholder"
+						placeholder="e.g:flamingo"
 						value={text}
 					/>
 				{/* </View> */}
@@ -121,10 +108,6 @@ export function wikImage({ navigation }) {
 					</Text>
 
 				</Pressable>
-				<Text style={styles.Text}>
-					{text
-					.toUpperCase()}
-				</Text>
 			</LinearGradient>
 		</View>
 

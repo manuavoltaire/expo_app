@@ -3,11 +3,10 @@
     "name": "fullapp",
     "slug": "fullapp",
     "version": "1.0.0",
-    "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/volume.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -26,7 +25,7 @@
       "package": "com.manuav.fullapp"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/volume.png"
     },
     "extra": {
       "eas": {

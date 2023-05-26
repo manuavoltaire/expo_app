@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
 	}
 });
 
-export function jokeApp({ navigation }) {
+export function JokeApp({ navigation }) {
 	const [joketext, setjoketext] = useState("");
 
 	const joketxt = async () => {
