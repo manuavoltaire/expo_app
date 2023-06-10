@@ -39,11 +39,12 @@ export function WikImage({ navigation }) {
 	// const [searchkey, setsearchkey] = useState("");
 	const [imgUri, setimgUri] = useState("");
 	const [imajis, setimajis] = useState("");
-	var imcount = -1;
+	let [imcount, setimcount] = useState(0);
 	
 	const [text, onChangeText] = React.useState('');
 	
-	const wkibrows = async () => {
+	const wkibrows = async (imcount) => {
+		setimcount(current => current + 1)
 		const api = `https://en.wikipedia.org/w/api.php?action=query&redirects=1&format=json&prop=images&imlimit=max&origin=*&titles=${text}`;
 		try {
 			const res = await fetch(api, {
@@ -62,40 +63,40 @@ export function WikImage({ navigation }) {
 				}
 			}
 			
-			setimgUri(`https://commons.wikimedia.org/wiki/${imajs[1]}`);
+			// setimgUri(`https://commons.wikimedia.org/wiki/${imajs[0]}`);
 			// setimgUri(`https://upload.wikimedia.org/wikipedia/commons/b/b5/1dayoldkitten.JPG`);
 			// setimgUri(`https://i.redd.it/i5aksclir04b1.jpg`);
-			const imgsrc = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=imageinfo&iiprop=url&origin=*&titles=${imajs[0]}`;
+			const imgsrc = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=imageinfo&iiprop=url&origin=*&titles=${imajs[imcount]}`;
 			const imgres = await fetch(imgsrc, {
 				method: 'GET', headers: {
 					"Accept": "application/json"
 				}
 			});
 			const imgjson = await imgres.json();
-			var imajis = "";
+			// var imajis = "";
 			var ipages = imgjson.query.pages;
 			for (var page in ipages) {
 				for (var img of ipages[page].imageinfo) {
 					// console.log(img.title);
-					setimajis(encodeURI(img.url));
+					setimajis(img.url);
 				}
 			}
 			// setsearchkey(json.title);
-			// console.log(json);
+			console.log(json);
 			console.log(imgjson);
-			console.log(imajis);
 			// console.log(imgUri);
 			// console.log(imajs.length);
 		}
 		catch (error) {
 			console.error(error);
 		}
+		console.log(imajis);
 		// finally {
-		//   setLoading(false);
-	}
-	
-	return (
-		<View style={styles.container}>
+			//   setLoading(false);
+		}
+		
+		return (
+			<View style={styles.container}>
 			<LinearGradient
 				// Background Linear Gradient
 				colors={['rgba(250,100,150,0.7)', '#2d8794']}
@@ -122,10 +123,10 @@ export function WikImage({ navigation }) {
 						onChangeText={onChangeText}
 						placeholder="e.g:flamingo"
 						value={text}
-					/>
+						/>
 				{/* </View> */}
 				<Pressable
-					onPress={() => wkibrows()}
+					onPress={() => wkibrows(imcount++)}
 					style={({ pressed }) => [
 						{
 							backgroundColor: pressed ? 'rgb(237, 92, 167)' : 'rgb(222, 67, 145)',
@@ -137,7 +138,7 @@ export function WikImage({ navigation }) {
 						Browse Wikipedia
 					</Text>
 				</Pressable>
-						<Image source={{ uri: imajis }}
+					<Image source={{ uri: imajis }}
 							style={{ width: '100%', height: '100%', resizeMode: 'contain'}} />
 			</LinearGradient>
 		</View>
